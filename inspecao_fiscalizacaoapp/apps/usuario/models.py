@@ -7,3 +7,6 @@ class Usuario(models.Model):
     senha = models.CharField(max_length=255)
     tipo = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.nome
+
