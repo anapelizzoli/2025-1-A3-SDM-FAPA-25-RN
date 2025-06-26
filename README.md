@@ -52,3 +52,7 @@ pip install -r requirements.txt
     provavelmente o projeto ira iniciar no terminal na pasta 2025-1-A3-SDM-FAPA-25-RN\ sem o inspecao_fiscalizacaoapp, para resolver escreva no terminal cd inspe e clica a tecla TAB para autocompletar
 
 12 - Se tudo estiver certo rode o projeto com python manage.py runserver
+
+13 - SE TODOS OS PASSOS ACIMA ESTIVEREM CERTOS E SEU PROJETO ESTA RODANDO ESTÁ NA HORA DE INICIAR O FRONTEND
+
+14 - Instale o NodeJS https://nodejs.org/pt
