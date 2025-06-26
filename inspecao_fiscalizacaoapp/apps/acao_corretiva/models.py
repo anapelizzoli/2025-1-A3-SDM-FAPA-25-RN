@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+
+class AcaoCorretiva(models.Model):
+    descricao = models.TextField()
+    prazo = models.DateField()
+
+    def __str__(self):
+        return f"{self.descricao[:30]}..."

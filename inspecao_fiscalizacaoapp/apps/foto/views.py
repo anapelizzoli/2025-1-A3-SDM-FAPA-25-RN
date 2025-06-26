@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import Foto
+from .serializer import FotoSerializer
 
-# Create your views here.
+
+class FotoViewSet(viewsets.ModelViewSet):
+    queryset = Foto.objects.all()
+    serializer_class = FotoSerializer

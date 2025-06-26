@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import Irregularidade
+from .serializer import IrregularidadeSerializer
 
-# Create your views here.
+
+class IrregularidadeViewSet(viewsets.ModelViewSet):
+    queryset = Irregularidade.objects.all()
+    serializer_class = IrregularidadeSerializer
