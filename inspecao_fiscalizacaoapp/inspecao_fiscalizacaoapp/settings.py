@@ -43,6 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'usuario.apps.UsuarioConfig',
+    'local_inspecao.apps.Local_InspecaoConfig',
+    'item_inspecao.apps.Item_InspecaoConfig',
+    'irregularidade.apps.IrregularidadeConfig',
+    'inspecao.apps.InspecaoConfig',
+    'foto.apps.FotoConfig',
+    'documento.apps.DocumentoConfig',
+    'acao_corretiva.apps.Acao_CorretivaConfig',
 ]
 
 MIDDLEWARE = [
