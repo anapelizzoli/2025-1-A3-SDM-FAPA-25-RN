@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from .models import Inspecao
+from .serializer import InspecaoSerializer
 
-# Create your views here.
+
+class InspecaoViewSet(viewsets.ModelViewSet):
+    queryset = Inspecao.objects.all()
+    serializer_class = InspecaoSerializer

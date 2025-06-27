@@ -52,3 +52,17 @@ pip install -r requirements.txt
     provavelmente o projeto ira iniciar no terminal na pasta 2025-1-A3-SDM-FAPA-25-RN\ sem o inspecao_fiscalizacaoapp, para resolver escreva no terminal cd inspe e clica a tecla TAB para autocompletar
 
 12 - Se tudo estiver certo rode o projeto com python manage.py runserver
+
+13 - SE TODOS OS PASSOS ACIMA ESTIVEREM CERTOS E SEU PROJETO ESTA RODANDO ESTÁ NA HORA DE INICIAR O FRONTEND
+
+14 - Instale o NodeJS https://nodejs.org/pt
+
+15 - Abra outro terminal e entre na pasta frontend
+
+16 - De o comando npm install
+
+17 - Comando npx expo start para ativar o mobile
+
+18 - Baixar o Expo Go no iPhone e logar usuario neweue1 senha Minhamae1 e escanear o QRCODE
+
+19 - Pronto só testar a aplicação
