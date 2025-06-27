@@ -28,9 +28,7 @@ sys.path.insert(0, APPS_DIR)
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG", default=False, cast=bool)
-
-ALLOWED_HOSTS = ["*"]
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -38,33 +36,31 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "rest_framework",
-    "usuario.apps.UsuarioConfig",
-    "local_inspecao.apps.LocalInspecaoConfig",
-    "item_inspecao.apps.ItemInspecaoConfig",
-    "irregularidade.apps.IrregularidadeConfig",
-    "inspecao.apps.InspecaoConfig",
-    "foto.apps.FotoConfig",
-    "documento.apps.DocumentoConfig",
-    "acao_corretiva.apps.AcaoCorretivaConfig",
-    "corsheaders",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'usuario.apps.UsuarioConfig',
+    'local_inspecao.apps.Local_InspecaoConfig',
+    'item_inspecao.apps.Item_InspecaoConfig',
+    'irregularidade.apps.IrregularidadeConfig',
+    'inspecao.apps.InspecaoConfig',
+    'foto.apps.FotoConfig',
+    'documento.apps.DocumentoConfig',
+    'acao_corretiva.apps.Acao_CorretivaConfig',
 ]
 
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = "inspecao_fiscalizacaoapp.urls"
