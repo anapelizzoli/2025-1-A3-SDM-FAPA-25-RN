@@ -1,18 +1,15 @@
-// app/(tabs)/HomeScreen.tsx
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Image,
-  ScrollView,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Tipos baseados no seu UML
 interface Inspecao {
@@ -33,144 +30,150 @@ interface MenuItem {
 }
 
 const HomeScreen = () => {
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("Inspetor");
   const [inspecoesRecentes, setInspecoesRecentes] = useState<Inspecao[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Carregar dados do usuário e inspeções recentes
+  // Simular carregamento de dados
   useEffect(() => {
-    const loadUserData = async () => {
-      const userData = await AsyncStorage.getItem("userData");
-      if (userData) {
-        const parsedData = JSON.parse(userData);
-        setUserName(parsedData.nome);
-      }
+    const timer = setTimeout(() => {
+      setInspecoesRecentes([
+        {
+          id: 1,
+          data: "2025-06-25",
+          status: "Concluída",
+          local: { nome: "Restaurante Central" },
+        },
+        {
+          id: 2,
+          data: "2025-06-24",
+          status: "Pendente",
+          local: { nome: "Mercado Municipal" },
+        },
+        {
+          id: 3,
+          data: "2025-06-23",
+          status: "Concluída",
+          local: { nome: "Padaria Doce Sabor" },
+        },
+      ]);
+      setLoading(false);
+    }, 1000);
 
-      // Simular busca de inspeções recentes
-      setTimeout(() => {
-        setInspecoesRecentes([
-          {
-            id: 1,
-            data: "2025-06-25",
-            status: "Concluída",
-            local: { nome: "Restaurante Central" },
-          },
-          {
-            id: 2,
-            data: "2025-06-24",
-            status: "Pendente",
-            local: { nome: "Mercado Municipal" },
-          },
-          {
-            id: 3,
-            data: "2025-06-23",
-            status: "Concluída",
-            local: { nome: "Padaria Doce Sabor" },
-          },
-        ]);
-        setLoading(false);
-      }, 1000);
-    };
-
-    loadUserData();
+    return () => clearTimeout(timer);
   }, []);
 
+  // Menu com cores baseadas no diagrama
   const menuItems: MenuItem[] = [
     {
       id: 1,
       title: "Criar Local",
       icon: "add-location",
       screen: "LocalInspecaoScreen",
-      color: "#4CAF50",
+      color: "#E1BEE7",
     },
     {
       id: 2,
       title: "Criar Inspeção",
       icon: "assignment",
       screen: "InspecaoScreen",
-      color: "#2196F3",
+      color: "#BBDEFB",
     },
     {
       id: 3,
       title: "Adicionar Foto",
       icon: "add-a-photo",
       screen: "FotoScreen",
-      color: "#FF9800",
+      color: "#E1BEE7",
     },
     {
       id: 4,
       title: "Adicionar Documento",
       icon: "description",
       screen: "DocumentoScreen",
-      color: "#9C27B0",
+      color: "#E1BEE7",
     },
     {
       id: 5,
       title: "Adicionar Irregularidade",
       icon: "warning",
       screen: "IrregularidadeScreen",
-      color: "#F44336",
+      color: "#E1BEE7",
     },
     {
       id: 6,
       title: "Adicionar Ação Corretiva",
       icon: "build",
       screen: "AcaoCorretivaScreen",
-      color: "#009688",
+      color: "#E1BEE7",
     },
     {
       id: 7,
       title: "Criar Item de Inspeção",
       icon: "checklist",
       screen: "ItemInspecaoScreen",
-      color: "#3F51B5",
+      color: "#BBDEFB",
     },
     {
       id: 8,
       title: "Ver Inspeções",
       icon: "list",
       screen: "InspecaoListScreen",
-      color: "#607D8B",
+      color: "#BBDEFB",
     },
   ];
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("userToken");
+  const handleLogout = () => {
     router.replace("/WelcomeScreen");
   };
 
+  const handleNavigate = (screen: string) => {
+    router.push(`/(tabs)/${screen}`);
+  };
+
   const renderMenuItem = ({ item }: { item: MenuItem }) => (
-    <Link href={`/${item.screen}`} asChild>
-      <TouchableOpacity
-        style={[styles.menuItem, { backgroundColor: item.color }]}
-      >
-        <MaterialIcons name={item.icon as any} size={32} color="white" />
-        <Text style={styles.menuItemText}>{item.title}</Text>
-      </TouchableOpacity>
-    </Link>
+    <TouchableOpacity
+      style={[
+        styles.menuItem,
+        { backgroundColor: item.color, borderColor: "#7B1FA2" },
+      ]}
+      onPress={() => handleNavigate(item.screen)}
+    >
+      <MaterialIcons name={item.icon as any} size={32} color="#333" />
+      <Text style={styles.menuItemText}>{item.title}</Text>
+    </TouchableOpacity>
   );
 
   const renderInspecaoItem = ({ item }: { item: Inspecao }) => (
-    <Link href={`/InspecaoDetailScreen/${item.id}`} asChild>
-      <TouchableOpacity style={styles.inspecaoItem}>
-        <View style={styles.inspecaoInfo}>
-          <Text style={styles.inspecaoLocal}>{item.local.nome}</Text>
-          <Text style={styles.inspecaoDate}>
-            {new Date(item.data).toLocaleDateString()} • {item.status}
-          </Text>
-        </View>
-        <MaterialIcons name="chevron-right" size={24} color="#666" />
-      </TouchableOpacity>
-    </Link>
+    <TouchableOpacity
+      style={[
+        styles.inspecaoItem,
+        { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
+      ]}
+      onPress={() => router.push(`/(tabs)/InspecaoDetailScreen/${item.id}`)}
+    >
+      <View style={styles.inspecaoInfo}>
+        <Text style={styles.inspecaoLocal}>{item.local.nome}</Text>
+        <Text style={styles.inspecaoDate}>
+          {new Date(item.data).toLocaleDateString()} • {item.status}
+        </Text>
+      </View>
+      <MaterialIcons name="chevron-right" size={24} color="#2196F3" />
+    </TouchableOpacity>
   );
 
   return (
     <ScrollView style={styles.container}>
       {/* Cabeçalho */}
-      <View style={styles.header}>
+      <View
+        style={[
+          styles.header,
+          { backgroundColor: "#C8E6C9", borderColor: "#4CAF50" },
+        ]}
+      >
         <View>
           <Text style={styles.greeting}>Bem-vindo,</Text>
-          <Text style={styles.userName}>{userName || "Inspetor"}</Text>
+          <Text style={styles.userName}>{userName}</Text>
         </View>
         <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
           <MaterialIcons name="exit-to-app" size={24} color="#F44336" />
@@ -204,32 +207,51 @@ const HomeScreen = () => {
           scrollEnabled={false}
         />
       ) : (
-        <View style={styles.emptyContainer}>
-          <MaterialIcons name="assignment" size={48} color="#E0E0E0" />
+        <View
+          style={[
+            styles.emptyContainer,
+            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
+          ]}
+        >
+          <MaterialIcons name="assignment" size={48} color="#2196F3" />
           <Text style={styles.emptyText}>Nenhuma inspeção recente</Text>
-          <Link href="/InspecaoScreen" asChild>
-            <TouchableOpacity style={styles.createButton}>
-              <Text style={styles.createButtonText}>
-                Criar Primeira Inspeção
-              </Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity
+            style={[styles.createButton, { backgroundColor: "#2196F3" }]}
+            onPress={() => handleNavigate("InspecaoScreen")}
+          >
+            <Text style={styles.createButtonText}>Criar Primeira Inspeção</Text>
+          </TouchableOpacity>
         </View>
       )}
 
-      {/* Estatísticas (opcional) */}
+      {/* Estatísticas */}
       <Text style={styles.sectionTitle}>Estatísticas</Text>
       <View style={styles.statsContainer}>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>12</Text>
+        <View
+          style={[
+            styles.statCard,
+            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
+          ]}
+        >
+          <Text style={[styles.statNumber, { color: "#2196F3" }]}>12</Text>
           <Text style={styles.statLabel}>Inspeções</Text>
         </View>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>8</Text>
+        <View
+          style={[
+            styles.statCard,
+            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
+          ]}
+        >
+          <Text style={[styles.statNumber, { color: "#2196F3" }]}>8</Text>
           <Text style={styles.statLabel}>Concluídas</Text>
         </View>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>4</Text>
+        <View
+          style={[
+            styles.statCard,
+            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
+          ]}
+        >
+          <Text style={[styles.statNumber, { color: "#2196F3" }]}>4</Text>
           <Text style={styles.statLabel}>Pendentes</Text>
         </View>
       </View>
@@ -248,15 +270,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 24,
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 2,
   },
   greeting: {
     fontSize: 18,
-    color: "#666",
+    color: "#388E3C",
   },
   userName: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
+    color: "#388E3C",
   },
   logoutButton: {
     flexDirection: "row",
@@ -286,26 +311,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     minWidth: 150,
     minHeight: 100,
+    borderWidth: 2,
   },
   menuItemText: {
-    color: "white",
+    color: "#333",
     fontWeight: "bold",
     marginTop: 8,
     textAlign: "center",
   },
   inspecaoItem: {
-    backgroundColor: "white",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderWidth: 2,
   },
   inspecaoInfo: {
     flex: 1,
@@ -314,6 +335,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 4,
+    color: "#333",
   },
   inspecaoDate: {
     fontSize: 14,
@@ -328,25 +350,19 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   emptyContainer: {
-    backgroundColor: "white",
     borderRadius: 12,
     padding: 32,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderWidth: 2,
   },
   emptyText: {
     fontSize: 16,
-    color: "#666",
+    color: "#333",
     marginTop: 16,
     textAlign: "center",
   },
   createButton: {
-    backgroundColor: "#2196F3",
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -362,22 +378,16 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   statCard: {
-    backgroundColor: "white",
     borderRadius: 12,
     padding: 16,
     flex: 1,
     marginHorizontal: 4,
     alignItems: "center",
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderWidth: 2,
   },
   statNumber: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#2196F3",
   },
   statLabel: {
     fontSize: 14,
