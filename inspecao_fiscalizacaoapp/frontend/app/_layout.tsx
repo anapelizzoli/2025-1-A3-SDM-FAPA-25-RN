@@ -1,13 +1,14 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "./(tabs)/HomeScreen";
-import WelcomeScreen from "./(tabs)/WelcomeScreen";
+import { Stack } from "expo-router";
 
-const Tab = createBottomTabNavigator();
-
-export default function TabLayout() {
+export default function Layout() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="WelcomeScreen" component={WelcomeScreen} />
-    </Tab.Navigator>
+    <Stack>
+      <Stack.Screen name="WelcomeScreen" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="LoginScreen"
+        options={{ title: "Login", headerShown: false }}
+      />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }
