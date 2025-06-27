@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, Button, Image, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  StyleSheet,
+  TextInput,
+  Alert,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 
@@ -37,7 +45,7 @@ const FotoScreen = () => {
     });
 
     try {
-      const response = await fetch("http://<SEU_BACKEND_URL>/foto/", {
+      const response = await fetch("http://192.168.15.126:8000/foto/", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
@@ -48,6 +56,7 @@ const FotoScreen = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Foto salva:", data);
+        Alert.alert("Sucesso", "Foto registrado com sucesso!");
         router.back();
       } else {
         const errorText = await response.text();

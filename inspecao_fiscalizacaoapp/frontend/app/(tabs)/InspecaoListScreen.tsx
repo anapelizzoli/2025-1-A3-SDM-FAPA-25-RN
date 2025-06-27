@@ -26,7 +26,7 @@ const InspecaoListScreen = () => {
   useEffect(() => {
     const fetchInspecoes = async () => {
       try {
-        const response = await fetch("http://<SEU_BACKEND_URL>/inspecao/");
+        const response = await fetch("http://192.168.15.126:8000/inspecao/");
         if (!response.ok) {
           throw new Error("Erro ao buscar inspeções");
         }

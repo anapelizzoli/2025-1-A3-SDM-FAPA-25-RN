@@ -65,4 +65,6 @@ pip install -r requirements.txt
 
 18 - Baixar o Expo Go no iPhone e logar usuario neweue1 senha Minhamae1 e escanear o QRCODE
 
+19 - Mudar todas as rotas do fetch para o ip que aparecer no aplicativo do expo
+
 19 - Pronto só testar a aplicação

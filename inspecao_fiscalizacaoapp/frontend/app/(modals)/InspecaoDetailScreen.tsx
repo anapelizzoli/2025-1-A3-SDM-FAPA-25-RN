@@ -38,7 +38,7 @@ const InspecaoDetailScreen = () => {
     const fetchInspecao = async () => {
       try {
         const response = await fetch(
-          `http://<SEU_BACKEND_URL>/inspecao/${id}/`
+          `http://192.168.15.126:8000/inspecao/${id}/`
         );
         if (!response.ok) {
           throw new Error("Erro ao buscar inspeção");

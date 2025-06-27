@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { router } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -15,17 +15,21 @@ const AcaoCorretivaScreen = () => {
     };
 
     try {
-      const response = await fetch("http://<SEU_BACKEND_URL>/acao_corretiva/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(novaAcao),
-      });
+      const response = await fetch(
+        "http://192.168.15.126:8000/acao_corretiva/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(novaAcao),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         console.log("Ação corretiva salva:", data);
+        Alert.alert("Sucesso!", "Ação Corretiva registrada com sucesso");
         router.back();
       } else {
         const errorData = await response.json();

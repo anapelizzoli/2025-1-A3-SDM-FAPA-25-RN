@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { router } from "expo-router";
 
 const IrregularidadeScreen = () => {
@@ -18,17 +18,21 @@ const IrregularidadeScreen = () => {
     };
 
     try {
-      const response = await fetch("http://<SEU_BACKEND_URL>/irregularidade/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "http://192.168.15.126:8000/irregularidade/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
         console.log("Irregularidade salva:", result);
+        Alert.alert("Sucesso!", "Irregularidade salva com sucesso");
         router.back(); // Voltar à tela anterior
       } else {
         const errorText = await response.text();

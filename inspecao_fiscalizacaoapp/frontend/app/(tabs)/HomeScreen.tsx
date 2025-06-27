@@ -34,36 +34,31 @@ const HomeScreen = () => {
   const [inspecoesRecentes, setInspecoesRecentes] = useState<Inspecao[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Simular carregamento de dados
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setInspecoesRecentes([
-        {
-          id: 1,
-          data: "2025-06-25",
-          status: "Concluída",
-          local: { nome: "Restaurante Central" },
-        },
-        {
-          id: 2,
-          data: "2025-06-24",
-          status: "Pendente",
-          local: { nome: "Mercado Municipal" },
-        },
-        {
-          id: 3,
-          data: "2025-06-23",
-          status: "Concluída",
-          local: { nome: "Padaria Doce Sabor" },
-        },
-      ]);
-      setLoading(false);
-    }, 1000);
+    const fetchInspecoes = async () => {
+      try {
+        const response = await fetch("http://192.168.15.126:8000/inspecao/");
+        const data = await response.json();
 
-    return () => clearTimeout(timer);
+        if (response.ok) {
+          const ordenadas = data.sort(
+            (a: Inspecao, b: Inspecao) =>
+              new Date(b.data).getTime() - new Date(a.data).getTime()
+          );
+          setInspecoesRecentes(ordenadas);
+        } else {
+          console.error("Erro ao carregar inspeções", data);
+        }
+      } catch (error) {
+        console.error("Erro de conexão:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInspecoes();
   }, []);
 
-  // Menu com cores baseadas no diagrama
   const menuItems: MenuItem[] = [
     {
       id: 1,
@@ -114,13 +109,6 @@ const HomeScreen = () => {
       screen: "ItemInspecaoScreen",
       color: "#BBDEFB",
     },
-    {
-      id: 8,
-      title: "Ver Inspeções",
-      icon: "list",
-      screen: "InspecaoListScreen",
-      color: "#BBDEFB",
-    },
   ];
 
   const handleLogout = () => {
@@ -128,7 +116,11 @@ const HomeScreen = () => {
   };
 
   const handleNavigate = (screen: string) => {
-    router.push(`/(tabs)/${screen}`);
+    router.push(`/(modals)/${screen}`);
+  };
+
+  const handleNavigateToInspecaoDetail = (id: number) => {
+    router.push(`/(tabs)/InspecaoListScreen/${id}`);
   };
 
   const renderMenuItem = ({ item }: { item: MenuItem }) => (
@@ -150,12 +142,13 @@ const HomeScreen = () => {
         styles.inspecaoItem,
         { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
       ]}
-      onPress={() => router.push(`/(tabs)/InspecaoDetailScreen/${item.id}`)}
+      onPress={() => handleNavigateToInspecaoDetail(item.id)}
     >
       <View style={styles.inspecaoInfo}>
         <Text style={styles.inspecaoLocal}>{item.local.nome}</Text>
         <Text style={styles.inspecaoDate}>
-          {new Date(item.data).toLocaleDateString()} • {item.status}
+          {new Date(item.data).toLocaleDateString()} •{" "}
+          {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
         </Text>
       </View>
       <MaterialIcons name="chevron-right" size={24} color="#2196F3" />
@@ -164,7 +157,6 @@ const HomeScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Cabeçalho */}
       <View
         style={[
           styles.header,
@@ -181,7 +173,6 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Menu de Ações Rápidas */}
       <Text style={styles.sectionTitle}>Ações Rápidas</Text>
       <FlatList
         data={menuItems}
@@ -192,7 +183,6 @@ const HomeScreen = () => {
         contentContainerStyle={styles.menuContainer}
       />
 
-      {/* Inspeções Recentes */}
       <Text style={styles.sectionTitle}>Inspeções Recentes</Text>
       {loading ? (
         <View style={styles.loadingContainer}>
@@ -204,7 +194,6 @@ const HomeScreen = () => {
           data={inspecoesRecentes}
           renderItem={renderInspecaoItem}
           keyExtractor={(item) => item.id.toString()}
-          scrollEnabled={false}
         />
       ) : (
         <View
@@ -223,38 +212,6 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
       )}
-
-      {/* Estatísticas */}
-      <Text style={styles.sectionTitle}>Estatísticas</Text>
-      <View style={styles.statsContainer}>
-        <View
-          style={[
-            styles.statCard,
-            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
-          ]}
-        >
-          <Text style={[styles.statNumber, { color: "#2196F3" }]}>12</Text>
-          <Text style={styles.statLabel}>Inspeções</Text>
-        </View>
-        <View
-          style={[
-            styles.statCard,
-            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
-          ]}
-        >
-          <Text style={[styles.statNumber, { color: "#2196F3" }]}>8</Text>
-          <Text style={styles.statLabel}>Concluídas</Text>
-        </View>
-        <View
-          style={[
-            styles.statCard,
-            { backgroundColor: "#BBDEFB", borderColor: "#2196F3" },
-          ]}
-        >
-          <Text style={[styles.statNumber, { color: "#2196F3" }]}>4</Text>
-          <Text style={styles.statLabel}>Pendentes</Text>
-        </View>
-      </View>
     </ScrollView>
   );
 };
@@ -371,28 +328,6 @@ const styles = StyleSheet.create({
   createButtonText: {
     color: "white",
     fontWeight: "bold",
-  },
-  statsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 24,
-  },
-  statCard: {
-    borderRadius: 12,
-    padding: 16,
-    flex: 1,
-    marginHorizontal: 4,
-    alignItems: "center",
-    borderWidth: 2,
-  },
-  statNumber: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
-  statLabel: {
-    fontSize: 14,
-    color: "#666",
-    marginTop: 4,
   },
 });
 

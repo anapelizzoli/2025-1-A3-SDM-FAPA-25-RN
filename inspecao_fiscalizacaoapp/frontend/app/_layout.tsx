@@ -3,82 +3,77 @@ import { Stack } from "expo-router";
 export default function Layout() {
   return (
     <Stack>
-      {/* Telas de autenticação */}
       <Stack.Screen name="WelcomeScreen" options={{ headerShown: false }} />
       <Stack.Screen name="LoginScreen" options={{ headerShown: false }} />
-
-      {/* Telas principais (tabs) */}
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-      {/* Telas de criação de entidades */}
+      {/* Telas modais */}
       <Stack.Screen
-        name="LocalInspecaoScreen"
+        name="modals/LocalInspecaoScreen"
         options={{
           title: "Novo Local",
-          presentation: "modal", // Faz a tela abrir como modal
+          presentation: "modal",
         }}
       />
       <Stack.Screen
-        name="FotoScreen"
+        name="modals/InspecaoScreen"
+        options={{
+          title: "Criar Inspecao",
+          presentation: "modal",
+          gestureEnabled: true,
+        }}
+      />
+      <Stack.Screen
+        name="modals/FotoScreen"
         options={{
           title: "Adicionar Foto",
           presentation: "modal",
         }}
       />
       <Stack.Screen
-        name="DocumentoScreen"
+        name="modals/DocumentoScreen"
         options={{
           title: "Adicionar Documento",
           presentation: "modal",
         }}
       />
       <Stack.Screen
-        name="IrregularidadeScreen"
+        name="modals/IrregularidadeScreen"
         options={{
           title: "Adicionar Irregularidade",
           presentation: "modal",
         }}
       />
       <Stack.Screen
-        name="AcaoCorretivaScreen"
+        name="modals/AcaoCorretivaScreen"
         options={{
           title: "Adicionar Ação Corretiva",
           presentation: "modal",
         }}
       />
       <Stack.Screen
-        name="ItemInspecaoScreen"
+        name="modals/ItemInspecaoScreen"
         options={{
           title: "Criar Item de Inspeção",
           presentation: "modal",
         }}
       />
-
-      {/* Telas de detalhes */}
       <Stack.Screen
-        name="InspecaoDetailScreen"
+        name="modals/InspecaoDetailScreen"
         options={{
           title: "Detalhes da Inspeção",
         }}
       />
       <Stack.Screen
-        name="ItemInspecaoDetailScreen"
+        name="modals/ItemInspecaoDetailScreen"
         options={{
           title: "Detalhes do Item",
         }}
       />
       <Stack.Screen
-        name="UsuarioDetailScreen"
+        name="modals/UsuarioDetailScreen"
         options={{
           title: "Detalhes do Usuário",
-        }}
-      />
-
-      {/* Telas de listagem */}
-      <Stack.Screen
-        name="InspecaoListScreen"
-        options={{
-          title: "Lista de Inspeções",
         }}
       />
     </Stack>

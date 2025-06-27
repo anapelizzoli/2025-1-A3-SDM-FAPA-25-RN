@@ -30,7 +30,9 @@ const UsuarioDetailScreen = () => {
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const response = await fetch(`http://<SEU_BACKEND_URL>/usuario/${id}`);
+        const response = await fetch(
+          `http://192.168.15.126:8000/usuario/${id}`
+        );
         if (!response.ok) {
           throw new Error("Erro ao carregar os dados do usuário");
         }

@@ -33,7 +33,7 @@ const ItemInspecaoDetailScreen = () => {
       try {
         // Substitua pela URL da sua API para buscar o item de inspeção
         const response = await fetch(
-          `http://<SEU_BACKEND_URL>/item_inspecao/${id}/`
+          `http://192.168.15.126:8000/item_inspecao/${id}/`
         );
 
         if (!response.ok) {

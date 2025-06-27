@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { router } from "expo-router";
 
 const LocalInspecaoScreen = () => {
@@ -9,23 +9,27 @@ const LocalInspecaoScreen = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("http://<SEU_BACKEND_URL>/local_inspecao/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          nome,
-          endereco,
-          tipo,
-        }),
-      });
+      const response = await fetch(
+        "http://192.168.15.126:8000/local_inspecao/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome,
+            endereco,
+            tipo,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Falha ao salvar local");
       }
 
       // Quando a resposta for bem-sucedida, redireciona para a tela anterior
+      Alert.alert("Sucesso", "Local registrado com sucesso!");
       router.back();
     } catch (error) {
       console.error("Erro:", error);
